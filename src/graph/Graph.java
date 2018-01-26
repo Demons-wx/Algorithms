@@ -9,7 +9,7 @@ import edu.princeton.cs.algs4.In;
  * 幅图，开头是V，然后是E，再然后是一列整数对，大小在0到V-1之间。
  *
  *
- * 运行：docs/tinyG.txt 0
+ *
  * @author wangxuan
  * @date 2018/1/23 15:28
  */

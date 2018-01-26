@@ -9,6 +9,7 @@ import edu.princeton.cs.algs4.StdOut;
  * 中和起点连通的所有顶点。它也调用了count()并打印了图是否连通的(当且仅当搜索能
  * 够标记图中的所有顶点时图才是连通的)。
  *
+ * 运行：docs/tinyG.txt 0
  * @author wangxuan
  * @date 2018/1/23 16:33
  */
