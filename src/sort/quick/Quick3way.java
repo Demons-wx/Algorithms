@@ -4,63 +4,63 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 /**
- * ÈıÏòÇĞ·ÖµÄ¿ìËÙÅÅĞò
- * Ë¼Â·£º
- * 		´Ó×óÖÁÓÒ±éÀúÊı×éÒ»´Î£¬Î¬»¤Ò»¸öÖ¸ÕëltÊ¹µÃa[lo..lt-1]ÖĞµÄÔªËØ¶¼Ğ¡ÓÚv£»
- * 		Ò»¸öÖ¸ÕëgtÊ¹µÃa[gt+1..hi]ÖĞµÄÔªËØ¶¼´óÓÚv£»
- * 		Ò»¸öÖ¸Õëi£¬Ê¹µÃa[lt..i-1]ÖĞµÄÔªËØ¶¼µÈÓÚv£»
- * 		µ±whileÑ­»·ÖĞµÄi==gt³ÉÁ¢Ê±£¬a[lo..lt-1] < v = a[lt..gt] < a[gt+1..hi]³ÉÁ¢¡£
- * Í¼Ê¾£º
- * 		Ëã·¨P189
- * ĞÔÄÜ£º
- * 		¶ÔÓÚ°üº¬´óÁ¿ÖØ¸´ÔªËØµÄÊı×é£¬ÈıÏòÇĞ·Ö½«ÅÅĞòÊ±¼ä´ÓÏßĞÔ¶ÔÊı¼¶±ğ½µµÍµ½ÁËÏßĞÔ¼¶±ğ¡£
- * 		¾­¹ı¾«ĞÄµ÷ÓÅµÄ¿ìËÙÅÅĞòÔÚ¾ø´ó¶àÊı¼ÆËã»úÉÏµÄ¾ø´ó¶àÊıÓ¦ÓÃÖĞ¶¼»á±ÈÆäËû»ùÓÚ±È½ÏµÄ
- * 		ÅÅĞòËã·¨¸ü¿ì¡£
+ * ä¸‰å‘åˆ‡åˆ†çš„å¿«é€Ÿæ’åº
+ * æ€è·¯ï¼š
+ * 		ä»å·¦è‡³å³éå†æ•°ç»„ä¸€æ¬¡ï¼Œç»´æŠ¤ä¸€ä¸ªæŒ‡é’ˆltä½¿å¾—a[lo..lt-1]ä¸­çš„å…ƒç´ éƒ½å°äºvï¼›
+ * 		ä¸€ä¸ªæŒ‡é’ˆgtä½¿å¾—a[gt+1..hi]ä¸­çš„å…ƒç´ éƒ½å¤§äºvï¼›
+ * 		ä¸€ä¸ªæŒ‡é’ˆiï¼Œä½¿å¾—a[lt..i-1]ä¸­çš„å…ƒç´ éƒ½ç­‰äºvï¼›
+ * 		å½“whileå¾ªç¯ä¸­çš„i==gtæˆç«‹æ—¶ï¼Œa[lo..lt-1] < v = a[lt..gt] < a[gt+1..hi]æˆç«‹ã€‚
+ * å›¾ç¤ºï¼š
+ * 		ç®—æ³•P189
+ * æ€§èƒ½ï¼š
+ * 		å¯¹äºåŒ…å«å¤§é‡é‡å¤å…ƒç´ çš„æ•°ç»„ï¼Œä¸‰å‘åˆ‡åˆ†å°†æ’åºæ—¶é—´ä»çº¿æ€§å¯¹æ•°çº§åˆ«é™ä½åˆ°äº†çº¿æ€§çº§åˆ«ã€‚
+ * 		ç»è¿‡ç²¾å¿ƒè°ƒä¼˜çš„å¿«é€Ÿæ’åºåœ¨ç»å¤§å¤šæ•°è®¡ç®—æœºä¸Šçš„ç»å¤§å¤šæ•°åº”ç”¨ä¸­éƒ½ä¼šæ¯”å…¶ä»–åŸºäºæ¯”è¾ƒçš„
+ * 		æ’åºç®—æ³•æ›´å¿«ã€‚
  * @author Demons
  *
  */
 public class Quick3way {
 	
 	public static void sort(Comparable[] a){
-		StdRandom.shuffle(a);	// Çå³ı¶ÔÊäÈëµÄÒÀÀµ
+		StdRandom.shuffle(a);	// æ¸…é™¤å¯¹è¾“å…¥çš„ä¾èµ–
 		sort(a, 0, a.length-1);
 	}
 	private static void sort(Comparable[] a, int lo, int hi){
 		if(hi <= lo) return;
 		int lt = lo, i = lo+1, gt = hi;
-		Comparable v = a[lo]; // ÓÃÀ´±È½ÏµÄv£¬ÎªÊı×éµÄµÚÒ»¸öÔªËØ
+		Comparable v = a[lo]; // ç”¨æ¥æ¯”è¾ƒçš„vï¼Œä¸ºæ•°ç»„çš„ç¬¬ä¸€ä¸ªå…ƒç´ 
 		while(i <= gt){
 			int cmp = a[i].compareTo(v);
 			if(cmp < 0){ // a[i] < v
-				exch(a, lt++, i++); // ½«a[lt]ºÍa[i]½»»»£¬½«ltºÍi¼Ó1£»
+				exch(a, lt++, i++); // å°†a[lt]å’Œa[i]äº¤æ¢ï¼Œå°†ltå’ŒiåŠ 1ï¼›
 			}else if(cmp > 0){ // a[i] > v
-				exch(a, i, gt--); // ½«a[gt]ºÍa[i]½»»»£¬½«gt¼õ1£»
+				exch(a, i, gt--); // å°†a[gt]å’Œa[i]äº¤æ¢ï¼Œå°†gtå‡1ï¼›
 			}else{ // a[i] = v
 				i++; 
-			} // ÏÖÔÚa[lo..lt-1] < v = a[lt..gt] < a[gt+1..hi]³ÉÁ¢
+			} // ç°åœ¨a[lo..lt-1] < v = a[lt..gt] < a[gt+1..hi]æˆç«‹
 		}
 		sort(a, lo, lt-1);
 		sort(a, gt+1, hi);
 	}
-	// ±È½Ï
+	// æ¯”è¾ƒ
 		private static boolean less(Comparable v, Comparable w){
 			return v.compareTo(w) < 0;
 		}
-		// ½»»»
+		// äº¤æ¢
 		private static void exch(Comparable[] a, int i, int j){
 			Comparable t = a[i];
 			a[i] = a[j];
 			a[j] = t;
 		}
 		private static void show(Comparable[] a){
-			// ÔÚµ¥ĞĞÖĞ´òÓ¡Êı×é
+			// åœ¨å•è¡Œä¸­æ‰“å°æ•°ç»„
 			for(int i=0; i<a.length; i++){
 				StdOut.print(a[i]+" ");
 			}
 			StdOut.println();
 		}
 		public static boolean isSorted(Comparable[] a){
-			// ²âÊÔÊı×éÔªËØÊÇ·ñÓĞĞò
+			// æµ‹è¯•æ•°ç»„å…ƒç´ æ˜¯å¦æœ‰åº
 			for(int i=1; i<a.length; i++){
 				if(less(a[i], a[i-1])){
 					return false;
@@ -69,10 +69,10 @@ public class Quick3way {
 			return true;
 		}
 		public static void main(String[] args) {
-			// ´Ó±ê×¼ÊäÈëÖĞ¶ÁÈ¡×Ö·û´®£¬½«ËûÃÇÅÅĞò²¢Êä³ö
-			Integer[] a = {8,4,22,45,1,23,67}; // IntegerÊı×éÊµÏÖÁËComparable½Ó¿Ú
+			// ä»æ ‡å‡†è¾“å…¥ä¸­è¯»å–å­—ç¬¦ä¸²ï¼Œå°†ä»–ä»¬æ’åºå¹¶è¾“å‡º
+			Integer[] a = {8,4,22,45,1,23,67}; // Integeræ•°ç»„å®ç°äº†Comparableæ¥å£
 			sort(a);
-			assert isSorted(a):"Êı×éÎ´ÅÅĞò";
+			assert isSorted(a):"æ•°ç»„æœªæ’åº";
 			show(a);
 		}
 }

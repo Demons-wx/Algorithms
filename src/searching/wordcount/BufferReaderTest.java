@@ -20,7 +20,7 @@ import java.util.TreeMap;
 public class BufferReaderTest {
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader("text/tale.txt"));
+		BufferedReader br = new BufferedReader(new FileReader("docs/tale.txt"));
 		List<String> list = new ArrayList<String>();
 		String readLine = null;
 		while ((readLine = br.readLine()) != null) {

@@ -3,48 +3,48 @@ package sort.insertion;
 import edu.princeton.cs.algs4.StdOut;
 
 /**
- * ²åÈëÅÅĞò
- * Ë¼Â·£º
- * 		½«µÚi¸öÔªËØ²åÈëµ½Ç°ÃæÒÑ¾­ÓĞĞòµÄi-1¸öÔªËØÖĞ¡£
- * 		Ê×ÏÈ£¬½«a[i]ºÍa[i-1]±È½Ï£¬Èç¹ûa[i] < a[i-1] ½»»»Î»ÖÃ
- * 		¼ÌĞø±È½Ï£¬a[i-1]ºÍa[i-2]£¬Ğ¡ÓÚÔò¼ÌĞø½»»»£¬´óÓÚÔò½»»»Í£Ö¹£¬´ËÊ±a[]ÖĞÇ°i¸öÔªËØÒÑ¾­ÓĞĞò
- * ĞÔÄÜ£º
- * 		×îºÃÇé¿öÏÂ£ºĞèÒªN-1´Î±È½ÏºÍ0´Î½»»»¡£
- * 		Æ½¾ùÇé¿öÏÂ£ºĞèÒª~ N^2/4´Î±È½ÏºÍ~ N^2/4´Î½»»»
- * 		×î»µÇé¿öÏÂ£ºĞèÒª~ N^2/2´Î±È½ÏºÍ~ N^2/2´Î½»»»
+ * æ’å…¥æ’åº
+ * æ€è·¯ï¼š
+ * 		å°†ç¬¬iä¸ªå…ƒç´ æ’å…¥åˆ°å‰é¢å·²ç»æœ‰åºçš„i-1ä¸ªå…ƒç´ ä¸­ã€‚
+ * 		é¦–å…ˆï¼Œå°†a[i]å’Œa[i-1]æ¯”è¾ƒï¼Œå¦‚æœa[i] < a[i-1] äº¤æ¢ä½ç½®
+ * 		ç»§ç»­æ¯”è¾ƒï¼Œa[i-1]å’Œa[i-2]ï¼Œå°äºåˆ™ç»§ç»­äº¤æ¢ï¼Œå¤§äºåˆ™äº¤æ¢åœæ­¢ï¼Œæ­¤æ—¶a[]ä¸­å‰iä¸ªå…ƒç´ å·²ç»æœ‰åº
+ * æ€§èƒ½ï¼š
+ * 		æœ€å¥½æƒ…å†µä¸‹ï¼šéœ€è¦N-1æ¬¡æ¯”è¾ƒå’Œ0æ¬¡äº¤æ¢
+ * 		å¹³å‡æƒ…å†µä¸‹ï¼šéœ€è¦~ N^2/4æ¬¡æ¯”è¾ƒå’Œ~ N^2/4æ¬¡äº¤æ¢
+ * 		æœ€åæƒ…å†µä¸‹ï¼šéœ€è¦~ N^2/2æ¬¡æ¯”è¾ƒå’Œ~ N^2/2æ¬¡äº¤æ¢
  * @author Demons
  *
  */
 public class Insertion {
 	public static void sort(Comparable[] a){
-		// ½«a[]°´ÉıĞòÅÅÁĞ
+		// å°†a[]æŒ‰å‡åºæ’åˆ—
 		int N = a.length;
 		for(int i=1; i<N; i++){
-			// ½«a[i] ²åÈëµ½a[i-1]¡¢a[i-2]¡¢a[i-3]...Ö®ÖĞ
+			// å°†a[i] æ’å…¥åˆ°a[i-1]ã€a[i-2]ã€a[i-3]...ä¹‹ä¸­
 			for(int j=i; j>0 && less(a[j], a[j-1]); j--){
 				exch(a, j, j-1);
 			}
 		}
 	}
-	// ±È½Ï
+	// æ¯”è¾ƒ
 	private static boolean less(Comparable v, Comparable w){
 		return v.compareTo(w) < 0;
 	}
-	// ½»»»
+	// äº¤æ¢
 	private static void exch(Comparable[] a, int i, int j){
 		Comparable t = a[i];
 		a[i] = a[j];
 		a[j] = t;
 	}
 	private static void show(Comparable[] a){
-		// ÔÚµ¥ĞĞÖĞ´òÓ¡Êı×é
+		// åœ¨å•è¡Œä¸­æ‰“å°æ•°ç»„
 		for(int i=0; i<a.length; i++){
 			StdOut.print(a[i]+" ");
 		}
 		StdOut.println();
 	}
 	public static boolean isSorted(Comparable[] a){
-		// ²âÊÔÊı×éÔªËØÊÇ·ñÓĞĞò
+		// æµ‹è¯•æ•°ç»„å…ƒç´ æ˜¯å¦æœ‰åº
 		for(int i=1; i<a.length; i++){
 			if(less(a[i], a[i-1])){
 				return false;
@@ -53,10 +53,10 @@ public class Insertion {
 		return true;
 	}
 	public static void main(String[] args) {
-		// ´Ó±ê×¼ÊäÈëÖĞ¶ÁÈ¡×Ö·û´®£¬½«ËûÃÇÅÅĞò²¢Êä³ö
-		Integer[] a = {8,4,22,45,1,23,67}; // IntegerÊı×éÊµÏÖÁËComparable½Ó¿Ú
+		// ä»æ ‡å‡†è¾“å…¥ä¸­è¯»å–å­—ç¬¦ä¸²ï¼Œå°†ä»–ä»¬æ’åºå¹¶è¾“å‡º
+		Integer[] a = {8,4,22,45,1,23,67}; // Integeræ•°ç»„å®ç°äº†Comparableæ¥å£
 		sort(a);
-		assert isSorted(a):"Êı×éÎ´ÅÅĞò";
+		assert isSorted(a):"æ•°ç»„æœªæ’åº";
 		show(a);
 	}
 }

@@ -3,274 +3,291 @@ package searching.symboltables;
 import edu.princeton.cs.algs4.Queue;
 
 /**
- * »ùÓÚ¶ş²æ²éÕÒÊ÷µÄ·ûºÅ±í
- * ¶ş²æ²éÕÒÊ÷£º
- * 		Ò»¿Å¶ş²æ²éÕÒÊ÷(BST)ÊÇÒ»¿Å¶ş²æÊ÷£¬ÆäÖĞÃ¿¸ö½áµã¶¼º¬ÓĞÒ»¸öComparableµÄ¼ü(ÒÔ¼°Ïà¹ØÁªµÄÖµ)
- * 		ÇÒÃ¿¸ö½áµãµÄ¼ü¶¼´óÓÚÆä×ó×ÓÊ÷ÖĞµÄÈÎÒâ½áµãµÄ¼ü¶øĞ¡ÓÚÓÒ×ÓÊ÷µÄÈÎÒâ½áµãµÄ¼ü¡£
- * ²éÕÒ(ÔÚ¶ş²æ²éÕÒÊ÷ÖĞ²éÕÒÒ»¸ö¼üµÄµİ¹éËã·¨)£º
- * 		Èç¹ûÊ÷ÊÇ¿ÕµÄ£¬Ôò²éÕÒÎ´ÃüÖĞ£»
- * 		Èç¹û±»²éÕÒµÄ¼üºÍ¸ù½áµãµÄ¼üÏàµÈ£¬²éÕÒÃüÖĞ£»
- * 		·ñÔòÎÒÃÇ¾Íµİ¹éµÄÔÚÊÊµ±µÄ×ÓÊ÷ÖĞ¼ÌĞø²éÕÒ¡£Èç¹û±»²éÕÒµÄ¼ü½ÏĞ¡¾ÍÑ¡Ôñ×ó×ÓÊ÷£¬½Ï´óÔòÑ¡ÔñÓÒ×ÓÊ÷¡£
- * @author Demons
+ * åŸºäºäºŒå‰æŸ¥æ‰¾æ ‘çš„ç¬¦å·è¡¨
+ * äºŒå‰æŸ¥æ‰¾æ ‘ï¼š
+ * ä¸€é¢—äºŒå‰æŸ¥æ‰¾æ ‘(BST)æ˜¯ä¸€é¢—äºŒå‰æ ‘ï¼Œå…¶ä¸­æ¯ä¸ªç»“ç‚¹éƒ½å«æœ‰ä¸€ä¸ªComparableçš„é”®(ä»¥åŠç›¸å…³è”çš„å€¼)
+ * ä¸”æ¯ä¸ªç»“ç‚¹çš„é”®éƒ½å¤§äºå…¶å·¦å­æ ‘ä¸­çš„ä»»æ„ç»“ç‚¹çš„é”®è€Œå°äºå³å­æ ‘çš„ä»»æ„ç»“ç‚¹çš„é”®ã€‚
+ * æŸ¥æ‰¾(åœ¨äºŒå‰æŸ¥æ‰¾æ ‘ä¸­æŸ¥æ‰¾ä¸€ä¸ªé”®çš„é€’å½’ç®—æ³•)ï¼š
+ * å¦‚æœæ ‘æ˜¯ç©ºçš„ï¼Œåˆ™æŸ¥æ‰¾æœªå‘½ä¸­ï¼›
+ * å¦‚æœè¢«æŸ¥æ‰¾çš„é”®å’Œæ ¹ç»“ç‚¹çš„é”®ç›¸ç­‰ï¼ŒæŸ¥æ‰¾å‘½ä¸­ï¼›
+ * å¦åˆ™æˆ‘ä»¬å°±é€’å½’çš„åœ¨é€‚å½“çš„å­æ ‘ä¸­ç»§ç»­æŸ¥æ‰¾ã€‚å¦‚æœè¢«æŸ¥æ‰¾çš„é”®è¾ƒå°å°±é€‰æ‹©å·¦å­æ ‘ï¼Œè¾ƒå¤§åˆ™é€‰æ‹©å³å­æ ‘ã€‚
  *
+ * @author Demons
  */
 public class BST<Key extends Comparable<Key>, Value> {
 
-	private Node root; // ¶ş²æ²éÕÒÊ÷µÄ¸ù½Úµã
-	
-	private class Node{
-		private Key key; // ¼ü
-		private Value val; // Öµ
-		private Node left, right; // Ö¸Ïò×ÓÊ÷µÄÁ´½Ó
-		private int N; // ÒÔ¸Ã½áµãÎª¸ùµÄ×ÓÊ÷ÖĞµÄ½áµã×ÜÊı
-		
-		public Node(Key key, Value val, int N){
-			this.key = key; this.val = val; this.N = N;
-		}
-	}
-	
-	public int size(){
-		return size(root);
-	}
-	
-	private int size(Node x){
-		if(x == null) return 0;
-		else return x.N;
-	}
-	
-	public Value get(Key key){
-		return get(root, key);
-	}
-	
-	public boolean contains(Key key){
-		return get(key) != null;
-	}
-	
-	private Value get(Node x, Key key){
-		// ÔÚÒÔxÎª¸ù½áµãµÄ×ÓÊ÷ÖĞ²éÕÒ²¢·µ»Økey¶ÔÓ¦µÄÖµ
-		// Èç¹ûÕÒ²»µ½£¬·µ»Ønull
-		if(x == null) return null;
-		int cmp = key.compareTo(x.key);
-		if(cmp < 0){
-			return get(x.left, key);
-		}else if(cmp > 0){
-			return get(x.right, key);
-		}else{
-			return x.val;
-		}
-	}
-	
-	public void put(Key key, Value val){
-		// ²éÕÒkey£¬ÕÒµ½Ôò¸üĞÂËüµÄÖµ£¬·ñÔòÎªËü´´½¨Ò»¸öĞÂµÄ½áµã
-		root = put(root, key, val);
-	}
-	
-	private Node put(Node x, Key key, Value val){
-		// Èç¹ûkey´æÔÚÓÚÒÔxÎª¸ù½áµãµÄ×ÓÊ÷ÖĞÔò¸üĞÂËüµÄÖµ
-		// ·ñÔò½«ÒÔkeyºÍvalÎª¼üÖµ¶ÔµÄĞÂ½áµã²åÈëµ½¸Ã×ÓÊ÷ÖĞ
-		if(x == null) return new Node(key, val, 1);
-		int cmp = key.compareTo(x.key);
-		if(cmp < 0){
-			x.left = put(x.left, key, val);
-		}else if(cmp > 0){
-			x.right = put(x.right, key, val);
-		}else{
-			x.val = val;
-		}
-		x.N = size(x.left) + size(x.right) + 1;
-		return x;
-	}
-	
-	/**
-	 * ×îĞ¡¼ü
-	 * 	Èç¹û¸ù½áµãµÄ×óÁ´½ÓÎª¿Õ£¬ÄÇÃ´Ò»¿Å¶ş²æ²éÕÒÊ÷ÖĞ×îĞ¡µÄ¼ü¾ÍÊÇ¸ù½áµã£»
-	 * 	Èç¹û×óÁ´½Ó·Ç¿Õ£¬ÄÇÃ´Ê÷ÖÖ×îĞ¡µÄ¼ü¾ÍÊÇ×ó×ÓÊ÷ÖĞ×îĞ¡µÄ¼ü¡£
-	 * @return
-	 */
-	public Key min(){
-		return min(root).key;
-	}
-	
-	private Node min(Node x){
-		if(x.left == null) return x;
-		return min(x.left);
-	}
-	/**
-	 * ×î´ó¼ü
-	 * @return
-	 */
-	public Key max(){
-		return max(root).key;
-	}
-	
-	private Node max(Node x){
-		if(x.right == null) return x;
-		return max(x.right);
-	}
-	
-	/**
-	 * Ğ¡ÓÚµÈÓÚkeyµÄ×î´ó¼ü(floor)
-	 * 		Èç¹û¸ø¶¨µÄkeyĞ¡ÓÚ¶ş²æ²éÕÒÊ÷µÄ¸ù½ÚµãµÄ¼ü£¬ÄÇÃ´floorÒ»¶¨ÔÚ¸ù½áµãµÄ×ó×ÓÊ÷ÖĞ£»
-	 * 		Èç¹û¸ø¶¨µÄkey´óÓÚ¶ş²æ²éÕÒÊ÷µÄ¸ù½áµãµÄ¼ü£¬ÄÇÃ´Ö»ÓĞµ±¸ù½áµãÓÒ×ÓÊ÷ÖĞ´æÔÚĞ¡ÓÚµÈÓÚkeyµÄ½áµãÊ±
-	 * 			Ğ¡ÓÚµÈÓÚkeyµÄ¼ü²Å»á³öÏÖÔÚÓÒ×ÓÊ÷£¬·ñÔò¸ù½áµã¾ÍÊÇĞ¡ÓÚµÈÓÚkeyµÄ×î´ó¼ü¡£
-	 * 		µ±key±È¶ş²æ²éÕÒÊ÷ÖĞËùÓĞ½áµãµÄ¼ü¶¼Ğ¡Ê±£¬·µ»Ønull
-	 * @param key
-	 * @return
-	 */
-	public Key floor(Key key){
-		Node x = floor(root, key);
-		if(x == null)
-			return null;
-		return x.key;
-	}
-	
-	private Node floor(Node x, Key key){
-		if(x == null) return null;
-		int cmp = key.compareTo(x.key);
-		if(cmp == 0) return x;
-		if(cmp < 0) return floor(x.left, key);
-		// Èç¹ûÓÒ×ÓÊ÷ÖĞ´æÔÚĞ¡ÓÚµÈÓÚkeyµÄ½áµãÊ±·µ»Ø´Ë½áµã£¬·ñÔò·µ»Ø¸ù½áµã
-		Node t = floor(x.right, key);
-		if(t != null) return t;
-		else return x;
-	}
-	
-	/**
-	 * ´óÓÚµÈÓÚkeyµÄ×îĞ¡¼ü
-	 * @param key
-	 * @return
-	 */
-	public Key cell(Key key){
-		Node x = cell(root, key);
-		if(x == null)
-			return null;
-		return x.key;
-	}
-	
-	private Node cell(Node x, Key key){
-		if(x == null) return null;
-		int cmp = key.compareTo(x.key);
-		if(cmp == 0) return x;
-		if(cmp > 0) return cell(x.right, key);
-		Node t = cell(x.left, key);
-		if(t != null) return t;
-		else return x;
-	}
-	
-	/**
-	 * ÕÒµ½ÅÅÃûÎªkµÄ¼ü
-	 * Èç¹û×ó×ÓÊ÷ÖĞµÄ½áµãÊıt´óÓÚk£¬ÎÒÃÇ¾Í¼ÌĞø(µİ¹éµÄ)ÔÚ×ó×ÓÊ÷ÖĞ²éÕÒÅÅÃûÎªkµÄ¼ü£»
-	 * Èç¹ûtµÈÓÚk£¬ÎÒÃÇ¾Í·µ»Ø¸ù½áµãÖĞµÄ¼ü£»
-	 * Èç¹ûtĞ¡ÓÚk£¬ÎÒÃÇ¾Íµİ¹éµÄÔÚÓÒ×ÓÊ÷ÖĞ²éÕÒÅÅÃûÎª(k-t-1)µÄ¼ü¡£
-	 * @param k
-	 * @return
-	 */
-	public Key select(int k){
-		return select(root, k).key;
-	}
-	private Node select(Node x, int k){
-		// ·µ»ØÅÅÃûÎªkµÄ½áµã
-		if(x == null) return null;
-		int t = size(x.left); // ÒÔx.leftÎª¸ùµÄ×ÓÊ÷ÖĞµÄ½áµã¸öÊı
-		if(t > k) return select(x.left, k);
-		else if(t < k) return select(x.right, k-t-1);
-		else return x;
-	}
-	
-	/**
-	 * ·µ»Ø¸ø¶¨¼üµÄÅÅÃû
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public int rank(Key key){
-		return rank(root, key);
-	}
-	private int rank(Node x, Key key){
-		// ·µ»ØÒÔxÎª¸ù½ÚµãµÄ×ÓÊ÷ÖĞĞ¡ÓÚx.keyµÄ¼üµÄÊıÁ¿
-		if(x == null) return 0;
-		int cmp = key.compareTo(x.key);
-		if(cmp < 0) return rank(x.left, key);
-		else if(cmp > 0) return rank(x.right, key) + size(x.left) + 1; // ×ó×ÓÊ÷µÄ½áµã¸öÊı+¸ù½Úµã+ÓÒ×ÓÊ÷ÖĞĞ¡ÓÚkeyµÄ¸öÊı
-		else return size(x.left);
-	}
-	
-	/**
-	 * ²»¶ÏµÄÉîÈë¸ù½ÚµãµÄ×ó×ÓÊ÷Ö±µ½Óö¼ûÒ»¸ö¿ÕÁ´½Ó¡£
-	 * È»ºó½«Ö¸Ïò¸Ã½áµãµÄÁ´½ÓÖ¸Ïò¸Ã½áµãµÄÓÒ×ÓÊ÷¡£
-	 * ´ËÊ±£¬ÒÑ¾­Ã»ÓĞÈÎºÎÁ´½ÓÖ¸ÏòÒª±»É¾³ıµÄ½áµã£¬Òò´ËËü»á±»À¬»øÊÕ¼¯Æ÷ÇåÀíµô¡£
-	 */
-	public void deleteMin(){
-		root = deleteMin(root);
-	}
-	private Node deleteMin(Node x){
-		if(x.left == null) return x.right;
-		x.left = deleteMin(x.left); // µİ¹é×ó×ÓÊ÷
-		x.N = size(x.left) + size(x.right) + 1; // É¾³ıÁËÖ®ºóĞÂµÄ½áµãÊı
-		return x;
-	}
-	
-	/**
-	 * É¾³ı¶ş²æ²éÕÒÊ÷ÖĞµÄ×î´ó½áµã
-	 */
-	public void deleteMax(){
-		root = deleteMax(root);
-	}
-	private Node deleteMax(Node x){
-		if(x.right == null) return x.left;
-		x.right = deleteMax(x.right); // µİ¹éÓÒ×ÓÊ÷
-		x.N = size(x.left) + size(x.right) + 1;
-		return x;
-	}
-	
-	/**
-	 * É¾³ı
-	 * ÔÚÉ¾³ı½áµãxºóÓÃËüµÄºó¼Ì½áµãÌî²¹ËüµÄÎ»ÖÃ
-	 * - ½«Ö¸Ïò¼´½«±»É¾³ıµÄ½áµãµÄÁ´½Ó±£´æÎªt£»
-	 * - ½«xÖ¸ÏòËüµÄºó¼Ì½áµãmin(t.right)£»
-	 * - ½«xµÄÓÒÁ´½Ó(Ô­±¾Ö¸ÏòÒ»¿ÅËùÓĞ½áµã¶¼´óÓÚx.keyµÄ¶ş²æ²éÕÒÊ÷)Ö¸ÏòdeleteMin(t.right),Ò²¾ÍÊÇÔÚÉ¾³ıºóËùÓĞ½áµãÈÔ¶¼´óÓÚx.keyµÄ×Ó¶ş²æ²éÕÒÊ÷£»
-	 * - ½«xµÄ×óÁ´½Ó(±¾Îª¿Õ)ÉèÎªt.left(ÆäÏÂËùÓĞµÄ¼ü¶¼Ğ¡ÓÚ±»É¾³ıµÄ½áµãºÍËüµÄºó¼Ì½áµã)¡£
-	 * @param key
-	 */
-	public void delete(Key key){
-		root = delete(root, key);
-	}
-	private Node delete(Node x, Key key){
-		if(x == null) return null;
-		int cmp = key.compareTo(x.key);
-		if(cmp < 0) x.left = delete(x.left, key);
-		else if(cmp > 0) x.right = delete(x.right, key);
-		else{
-			if(x.right == null) return x.left;
-			if(x.left == null) return x.right;
-			Node t = x;
-			x = min(t.right);
-			x.right = deleteMin(t.right);
-			x.left = t.left;
-		}
-		x.N = size(x.left) + size(x.right) + 1;
-		return x;
-	}
-	
-	/**
-	 * ¶ş²æ²éÕÒÊ÷µÄ·¶Î§²éÕÒ
-	 * ·µ»Ø¸ø¶¨·¶Î§ÄÚµÄ¼ü
-	 * @return
-	 */
-	public Iterable<Key> keys(){
-		return keys(min(), max());
-	}
-	public Iterable<Key> keys(Key lo, Key hi){
-		Queue<Key> queue = new Queue<Key>();
-		keys(root, queue, lo, hi);
-		return queue;
-	}
-	private void keys(Node x, Queue<Key> queue, Key lo, Key hi){
-		if(x == null) return;
-		int cmplo = lo.compareTo(x.key);
-		int cmphi = hi.compareTo(x.key);
-		if(cmplo < 0) keys(x.left, queue, lo, hi);
-		if(cmplo <= 0 && cmphi >= 0) queue.enqueue(x.key);
-		if(cmphi > 0) keys(x.right, queue, lo, hi);
-	}
+    private Node root; // äºŒå‰æŸ¥æ‰¾æ ‘çš„æ ¹èŠ‚ç‚¹
+
+    private class Node {
+        private Key key; // é”®
+        private Value val; // å€¼
+        private Node left, right; // æŒ‡å‘å­æ ‘çš„é“¾æ¥
+        private int N; // ä»¥è¯¥ç»“ç‚¹ä¸ºæ ¹çš„å­æ ‘ä¸­çš„ç»“ç‚¹æ€»æ•°
+
+        public Node(Key key, Value val, int N) {
+            this.key = key;
+            this.val = val;
+            this.N = N;
+        }
+    }
+
+    public int size() {
+        return size(root);
+    }
+
+    private int size(Node x) {
+        if (x == null) return 0;
+        else return x.N;
+    }
+
+    public Value get(Key key) {
+        return get(root, key);
+    }
+
+    public boolean contains(Key key) {
+        return get(key) != null;
+    }
+
+    private Value get(Node x, Key key) {
+        // åœ¨ä»¥xä¸ºæ ¹ç»“ç‚¹çš„å­æ ‘ä¸­æŸ¥æ‰¾å¹¶è¿”å›keyå¯¹åº”çš„å€¼
+        // å¦‚æœæ‰¾ä¸åˆ°ï¼Œè¿”å›null
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) {
+            return get(x.left, key);
+        } else if (cmp > 0) {
+            return get(x.right, key);
+        } else {
+            return x.val;
+        }
+    }
+
+    public void put(Key key, Value val) {
+        // æŸ¥æ‰¾keyï¼Œæ‰¾åˆ°åˆ™æ›´æ–°å®ƒçš„å€¼ï¼Œå¦åˆ™ä¸ºå®ƒåˆ›å»ºä¸€ä¸ªæ–°çš„ç»“ç‚¹
+        root = put(root, key, val);
+    }
+
+    private Node put(Node x, Key key, Value val) {
+        // å¦‚æœkeyå­˜åœ¨äºä»¥xä¸ºæ ¹ç»“ç‚¹çš„å­æ ‘ä¸­åˆ™æ›´æ–°å®ƒçš„å€¼
+        // å¦åˆ™å°†ä»¥keyå’Œvalä¸ºé”®å€¼å¯¹çš„æ–°ç»“ç‚¹æ’å…¥åˆ°è¯¥å­æ ‘ä¸­
+        if (x == null) return new Node(key, val, 1);
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) {
+            x.left = put(x.left, key, val);
+        } else if (cmp > 0) {
+            x.right = put(x.right, key, val);
+        } else {
+            x.val = val;
+        }
+        x.N = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+
+    /**
+     * æœ€å°é”®
+     * å¦‚æœæ ¹ç»“ç‚¹çš„å·¦é“¾æ¥ä¸ºç©ºï¼Œé‚£ä¹ˆä¸€é¢—äºŒå‰æŸ¥æ‰¾æ ‘ä¸­æœ€å°çš„é”®å°±æ˜¯æ ¹ç»“ç‚¹ï¼›
+     * å¦‚æœå·¦é“¾æ¥éç©ºï¼Œé‚£ä¹ˆæ ‘ç§æœ€å°çš„é”®å°±æ˜¯å·¦å­æ ‘ä¸­æœ€å°çš„é”®ã€‚
+     *
+     * @return
+     */
+    public Key min() {
+        return min(root).key;
+    }
+
+    private Node min(Node x) {
+        if (x.left == null) return x;
+        return min(x.left);
+    }
+
+    /**
+     * æœ€å¤§é”®
+     *
+     * @return
+     */
+    public Key max() {
+        return max(root).key;
+    }
+
+    private Node max(Node x) {
+        if (x.right == null) return x;
+        return max(x.right);
+    }
+
+    /**
+     * å°äºç­‰äºkeyçš„æœ€å¤§é”®(floor)
+     * å¦‚æœç»™å®šçš„keyå°äºäºŒå‰æŸ¥æ‰¾æ ‘çš„æ ¹èŠ‚ç‚¹çš„é”®ï¼Œé‚£ä¹ˆfloorä¸€å®šåœ¨æ ¹ç»“ç‚¹çš„å·¦å­æ ‘ä¸­ï¼›
+     * å¦‚æœç»™å®šçš„keyå¤§äºäºŒå‰æŸ¥æ‰¾æ ‘çš„æ ¹ç»“ç‚¹çš„é”®ï¼Œé‚£ä¹ˆåªæœ‰å½“æ ¹ç»“ç‚¹å³å­æ ‘ä¸­å­˜åœ¨å°äºç­‰äºkeyçš„ç»“ç‚¹æ—¶
+     * å°äºç­‰äºkeyçš„é”®æ‰ä¼šå‡ºç°åœ¨å³å­æ ‘ï¼Œå¦åˆ™æ ¹ç»“ç‚¹å°±æ˜¯å°äºç­‰äºkeyçš„æœ€å¤§é”®ã€‚
+     * å½“keyæ¯”äºŒå‰æŸ¥æ‰¾æ ‘ä¸­æ‰€æœ‰ç»“ç‚¹çš„é”®éƒ½å°æ—¶ï¼Œè¿”å›null
+     *
+     * @param key
+     * @return
+     */
+    public Key floor(Key key) {
+        Node x = floor(root, key);
+        if (x == null)
+            return null;
+        return x.key;
+    }
+
+    private Node floor(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp == 0) return x;
+        if (cmp < 0) return floor(x.left, key);
+        // å¦‚æœå³å­æ ‘ä¸­å­˜åœ¨å°äºç­‰äºkeyçš„ç»“ç‚¹æ—¶è¿”å›æ­¤ç»“ç‚¹ï¼Œå¦åˆ™è¿”å›æ ¹ç»“ç‚¹
+        Node t = floor(x.right, key);
+        if (t != null) return t;
+        else return x;
+    }
+
+    /**
+     * å¤§äºç­‰äºkeyçš„æœ€å°é”®
+     *
+     * @param key
+     * @return
+     */
+    public Key cell(Key key) {
+        Node x = cell(root, key);
+        if (x == null)
+            return null;
+        return x.key;
+    }
+
+    private Node cell(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp == 0) return x;
+        if (cmp > 0) return cell(x.right, key);
+        Node t = cell(x.left, key);
+        if (t != null) return t;
+        else return x;
+    }
+
+    /**
+     * æ‰¾åˆ°æ’åä¸ºkçš„é”®
+     * å¦‚æœå·¦å­æ ‘ä¸­çš„ç»“ç‚¹æ•°tå¤§äºkï¼Œæˆ‘ä»¬å°±ç»§ç»­(é€’å½’çš„)åœ¨å·¦å­æ ‘ä¸­æŸ¥æ‰¾æ’åä¸ºkçš„é”®ï¼›
+     * å¦‚æœtç­‰äºkï¼Œæˆ‘ä»¬å°±è¿”å›æ ¹ç»“ç‚¹ä¸­çš„é”®ï¼›
+     * å¦‚æœtå°äºkï¼Œæˆ‘ä»¬å°±é€’å½’çš„åœ¨å³å­æ ‘ä¸­æŸ¥æ‰¾æ’åä¸º(k-t-1)çš„é”®ã€‚
+     *
+     * @param k
+     * @return
+     */
+    public Key select(int k) {
+        return select(root, k).key;
+    }
+
+    private Node select(Node x, int k) {
+        // è¿”å›æ’åä¸ºkçš„ç»“ç‚¹
+        if (x == null) return null;
+        int t = size(x.left); // ä»¥x.leftä¸ºæ ¹çš„å­æ ‘ä¸­çš„ç»“ç‚¹ä¸ªæ•°
+        if (t > k) return select(x.left, k);
+        else if (t < k) return select(x.right, k - t - 1);
+        else return x;
+    }
+
+    /**
+     * è¿”å›ç»™å®šé”®çš„æ’å
+     *
+     * @param key
+     * @return
+     */
+    public int rank(Key key) {
+        return rank(root, key);
+    }
+
+    private int rank(Node x, Key key) {
+        // è¿”å›ä»¥xä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘ä¸­å°äºx.keyçš„é”®çš„æ•°é‡
+        if (x == null) return 0;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) return rank(x.left, key);
+        else if (cmp > 0) return rank(x.right, key) + size(x.left) + 1; // å·¦å­æ ‘çš„ç»“ç‚¹ä¸ªæ•°+æ ¹èŠ‚ç‚¹+å³å­æ ‘ä¸­å°äºkeyçš„ä¸ªæ•°
+        else return size(x.left);
+    }
+
+    /**
+     * ä¸æ–­çš„æ·±å…¥æ ¹èŠ‚ç‚¹çš„å·¦å­æ ‘ç›´åˆ°é‡è§ä¸€ä¸ªç©ºé“¾æ¥ã€‚
+     * ç„¶åå°†æŒ‡å‘è¯¥ç»“ç‚¹çš„é“¾æ¥æŒ‡å‘è¯¥ç»“ç‚¹çš„å³å­æ ‘ã€‚
+     * æ­¤æ—¶ï¼Œå·²ç»æ²¡æœ‰ä»»ä½•é“¾æ¥æŒ‡å‘è¦è¢«åˆ é™¤çš„ç»“ç‚¹ï¼Œå› æ­¤å®ƒä¼šè¢«åƒåœ¾æ”¶é›†å™¨æ¸…ç†æ‰ã€‚
+     */
+    public void deleteMin() {
+        root = deleteMin(root);
+    }
+
+    private Node deleteMin(Node x) {
+        if (x.left == null) return x.right;
+        x.left = deleteMin(x.left); // é€’å½’å·¦å­æ ‘
+        x.N = size(x.left) + size(x.right) + 1; // åˆ é™¤äº†ä¹‹åæ–°çš„ç»“ç‚¹æ•°
+        return x;
+    }
+
+    /**
+     * åˆ é™¤äºŒå‰æŸ¥æ‰¾æ ‘ä¸­çš„æœ€å¤§ç»“ç‚¹
+     */
+    public void deleteMax() {
+        root = deleteMax(root);
+    }
+
+    private Node deleteMax(Node x) {
+        if (x.right == null) return x.left;
+        x.right = deleteMax(x.right); // é€’å½’å³å­æ ‘
+        x.N = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+
+    /**
+     * åˆ é™¤
+     * åœ¨åˆ é™¤ç»“ç‚¹xåç”¨å®ƒçš„åç»§ç»“ç‚¹å¡«è¡¥å®ƒçš„ä½ç½®
+     * - å°†æŒ‡å‘å³å°†è¢«åˆ é™¤çš„ç»“ç‚¹çš„é“¾æ¥ä¿å­˜ä¸ºtï¼›
+     * - å°†xæŒ‡å‘å®ƒçš„åç»§ç»“ç‚¹min(t.right)ï¼›
+     * - å°†xçš„å³é“¾æ¥(åŸæœ¬æŒ‡å‘ä¸€é¢—æ‰€æœ‰ç»“ç‚¹éƒ½å¤§äºx.keyçš„äºŒå‰æŸ¥æ‰¾æ ‘)æŒ‡å‘deleteMin(t.right),ä¹Ÿå°±æ˜¯åœ¨åˆ é™¤åæ‰€æœ‰ç»“ç‚¹ä»éƒ½å¤§äºx.keyçš„å­äºŒå‰æŸ¥æ‰¾æ ‘ï¼›
+     * - å°†xçš„å·¦é“¾æ¥(æœ¬ä¸ºç©º)è®¾ä¸ºt.left(å…¶ä¸‹æ‰€æœ‰çš„é”®éƒ½å°äºè¢«åˆ é™¤çš„ç»“ç‚¹å’Œå®ƒçš„åç»§ç»“ç‚¹)ã€‚
+     *
+     * @param key
+     */
+    public void delete(Key key) {
+        root = delete(root, key);
+    }
+
+    private Node delete(Node x, Key key) {
+        if (x == null) return null;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0) x.left = delete(x.left, key);
+        else if (cmp > 0) x.right = delete(x.right, key);
+        else {
+            if (x.right == null) return x.left;
+            if (x.left == null) return x.right;
+            Node t = x;
+            x = min(t.right);
+            x.right = deleteMin(t.right);
+            x.left = t.left;
+        }
+        x.N = size(x.left) + size(x.right) + 1;
+        return x;
+    }
+
+    /**
+     * äºŒå‰æŸ¥æ‰¾æ ‘çš„èŒƒå›´æŸ¥æ‰¾
+     * è¿”å›ç»™å®šèŒƒå›´å†…çš„é”®
+     *
+     * @return
+     */
+    public Iterable<Key> keys() {
+        return keys(min(), max());
+    }
+
+    public Iterable<Key> keys(Key lo, Key hi) {
+        Queue<Key> queue = new Queue<Key>();
+        keys(root, queue, lo, hi);
+        return queue;
+    }
+
+    private void keys(Node x, Queue<Key> queue, Key lo, Key hi) {
+        if (x == null) return;
+        int cmplo = lo.compareTo(x.key);
+        int cmphi = hi.compareTo(x.key);
+        if (cmplo < 0) keys(x.left, queue, lo, hi);
+        if (cmplo <= 0 && cmphi >= 0) queue.enqueue(x.key);
+        if (cmphi > 0) keys(x.right, queue, lo, hi);
+    }
 }

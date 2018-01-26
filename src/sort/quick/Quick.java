@@ -6,38 +6,38 @@ import edu.princeton.cs.algs4.StdRandom;
 import fundamentals.algorithmsanalysis.Stopwatch;
 
 /**
- * ¿ìËÙÅÅĞò
- * Ë¼Â·£º
- * 		Í¨¹ıµİ¹éµÄµ÷ÓÃÇĞ·ÖÀ´ÊµÏÖÅÅĞò¡£
- * ÊµÏÖ£º
- * 		1£¬ÏÈÈ¡a[lo]×÷ÎªÇĞ·ÖÔªËØv£¬¼´ÄÇ¸ö½«»á±»ÅÅ¶¨µÄÔªËØ¡£
- * 		2£¬ÔÚÑ­»·ÖĞ£¬a[i]Ğ¡ÓÚvÊ±£¬ÎÒÃÇÔö´ói¡£a[j]´óÓÚvÊ±£¬ÎÒÃÇ¼õĞ¡j¡£
- * 		3£¬µ±Óöµ½a[i]´óÓÚvÇÒa[j]Ğ¡ÓÚvÊ±£¬ÎÒÃÇ½»»»a[i]ºÍa[j]¡£±£Ö¤i×ó²àµÄÔªËØ¶¼²»´óÓÚv£¬jÓÒ²àµÄÔªËØ¶¼²»Ğ¡ÓÚV¡£
- * 		4£¬µ±Ö¸ÕëÏàÓöÊ±£¬ÎÒÃÇ½»»»a[lo]ºÍa[j],ÇĞ·Ö½áÊø¡£ÕâÑùÇĞ·ÖÖµ¾ÍÁôÔÚÁËa[j]ÖĞÁË¡£
- * ĞÔÄÜ£º
- * 		Ê±¼ä¸´ÔÓ¶È£ºNlogN
+ * å¿«é€Ÿæ’åº
+ * æ€è·¯ï¼š
+ * 		é€šè¿‡é€’å½’çš„è°ƒç”¨åˆ‡åˆ†æ¥å®ç°æ’åºã€‚
+ * å®ç°ï¼š
+ * 		1ï¼Œå…ˆå–a[lo]ä½œä¸ºåˆ‡åˆ†å…ƒç´ vï¼Œå³é‚£ä¸ªå°†ä¼šè¢«æ’å®šçš„å…ƒç´ ã€‚
+ * 		2ï¼Œåœ¨å¾ªç¯ä¸­ï¼Œa[i]å°äºvæ—¶ï¼Œæˆ‘ä»¬å¢å¤§iã€‚a[j]å¤§äºvæ—¶ï¼Œæˆ‘ä»¬å‡å°jã€‚
+ * 		3ï¼Œå½“é‡åˆ°a[i]å¤§äºvä¸”a[j]å°äºvæ—¶ï¼Œæˆ‘ä»¬äº¤æ¢a[i]å’Œa[j]ã€‚ä¿è¯iå·¦ä¾§çš„å…ƒç´ éƒ½ä¸å¤§äºvï¼Œjå³ä¾§çš„å…ƒç´ éƒ½ä¸å°äºVã€‚
+ * 		4ï¼Œå½“æŒ‡é’ˆç›¸é‡æ—¶ï¼Œæˆ‘ä»¬äº¤æ¢a[lo]å’Œa[j],åˆ‡åˆ†ç»“æŸã€‚è¿™æ ·åˆ‡åˆ†å€¼å°±ç•™åœ¨äº†a[j]ä¸­äº†ã€‚
+ * æ€§èƒ½ï¼š
+ * 		æ—¶é—´å¤æ‚åº¦ï¼šNlogN
  * @author Demons
  *
  */
 public class Quick {
 	
 	public static void sort(Comparable[] a){
-//		StdRandom.shuffle(a);	// Çå³ı¶ÔÊäÈëµÄÒÀÀµ
+//		StdRandom.shuffle(a);	// æ¸…é™¤å¯¹è¾“å…¥çš„ä¾èµ–
 		sort(a, 0, a.length-1);
 	}
 	
 	private static void sort(Comparable[] a, int lo, int hi){
-		if(hi <= lo) return; // ÖÕÖ¹µİ¹é
-		int j = partition(a, lo, hi);	// ÇĞ·Ö
+		if(hi <= lo) return; // ç»ˆæ­¢é€’å½’
+		int j = partition(a, lo, hi);	// åˆ‡åˆ†
 		sort(a, lo, j-1);
 		sort(a, j+1, hi);
 	}
 	
 	private static int partition(Comparable[] a, int lo, int hi){
-		int i = lo, j = hi+1;	// ×óÓÒÉ¨ÃèÖ¸Õë
-		Comparable v = a[lo];	// ÇĞ·ÖÔªËØ
+		int i = lo, j = hi+1;	// å·¦å³æ‰«ææŒ‡é’ˆ
+		Comparable v = a[lo];	// åˆ‡åˆ†å…ƒç´ 
 		while(true){
-			// É¨Ãè×óÓÒ£¬¼ì²éÉ¨ÃèÊÇ·ñ½áÊø²¢½»»»ÔªËØ
+			// æ‰«æå·¦å³ï¼Œæ£€æŸ¥æ‰«ææ˜¯å¦ç»“æŸå¹¶äº¤æ¢å…ƒç´ 
 			while(less(a[++i], v)){
 				if(i == hi) break;
 			}
@@ -47,21 +47,21 @@ public class Quick {
 			if(i >= j) break;
 			exch(a, i, j);
 		}
-		exch(a, lo, j);	// ½«v=a[j]·ÅÈëÕıÈ·µÄÎ»ÖÃ
+		exch(a, lo, j);	// å°†v=a[j]æ”¾å…¥æ­£ç¡®çš„ä½ç½®
 		return j;
 	}
-	// ±È½Ï
+	// æ¯”è¾ƒ
 	private static boolean less(Comparable v, Comparable w){
 		return v.compareTo(w) < 0;
 	}
-	// ½»»»
+	// äº¤æ¢
 	private static void exch(Comparable[] a, int i, int j){
 		Comparable t = a[i];
 		a[i] = a[j];
 		a[j] = t;
 	}
 	private static void show(Comparable[] a){
-		// ÔÚµ¥ĞĞÖĞ´òÓ¡Êı×é
+		// åœ¨å•è¡Œä¸­æ‰“å°æ•°ç»„
 		/*for(int i=0; i<5; i++){
 			StdOut.print(a[i]+" ");
 		}*/
@@ -71,7 +71,7 @@ public class Quick {
 		StdOut.println();
 	}
 	public static boolean isSorted(Comparable[] a){
-		// ²âÊÔÊı×éÔªËØÊÇ·ñÓĞĞò
+		// æµ‹è¯•æ•°ç»„å…ƒç´ æ˜¯å¦æœ‰åº
 		for(int i=1; i<a.length; i++){
 			if(less(a[i], a[i-1])){
 				return false;
@@ -80,8 +80,8 @@ public class Quick {
 		return true;
 	}
 	public static void main(String[] args) {
-		// ´Ó±ê×¼ÊäÈëÖĞ¶ÁÈ¡×Ö·û´®£¬½«ËûÃÇÅÅĞò²¢Êä³ö
-//		Integer[] a = {1,2,3,4,5,6,7,8}; // IntegerÊı×éÊµÏÖÁËComparable½Ó¿Ú
+		// ä»æ ‡å‡†è¾“å…¥ä¸­è¯»å–å­—ç¬¦ä¸²ï¼Œå°†ä»–ä»¬æ’åºå¹¶è¾“å‡º
+//		Integer[] a = {1,2,3,4,5,6,7,8}; // Integeræ•°ç»„å®ç°äº†Comparableæ¥å£
 		int N = 10000000;
 		Double[] a = new Double[N];
 		for (int i = 0; i < N; i++) {
@@ -89,8 +89,8 @@ public class Quick {
 		}
 		Stopwatch time = new Stopwatch();
 		sort(a);
-		System.out.println("ºÄÊ±£º" + time.elapsdTime());
-		assert isSorted(a):"Êı×éÎ´ÅÅĞò";
+		System.out.println("è€—æ—¶ï¼š" + time.elapsdTime());
+		assert isSorted(a):"æ•°ç»„æœªæ’åº";
 		show(a);
 	}
 }

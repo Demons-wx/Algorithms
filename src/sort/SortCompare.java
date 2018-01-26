@@ -19,7 +19,7 @@ import fundamentals.algorithmsanalysis.Stopwatch;
  */
 public class SortCompare {
 	
-	public static double time(String alg, Double[] a){
+	private static double time(String alg, Double[] a){
 		Stopwatch timer = new Stopwatch();
 		if(alg.equals("Insertion")) Insertion.sort(a);
 		if(alg.equals("Selection")) Selection.sort(a);
@@ -32,7 +32,7 @@ public class SortCompare {
 		return timer.elapsdTime();
 	}
 	
-	public static double timeRandomInput(String alg, int N, int T){
+	private static double timeRandomInput(String alg, int N, int T){
 		// 使用算法将T个长度为N的数组排序
 		double total = 0.0;
 		Double[] a = new Double[N];

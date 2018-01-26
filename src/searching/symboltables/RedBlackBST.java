@@ -1,114 +1,115 @@
 package searching.symboltables;
 
 /**
- * ºìºÚÊ÷µÄ²åÈëËã·¨
- * @author wx
+ * çº¢é»‘æ ‘çš„æ’å…¥ç®—æ³•
  *
  * @param <Key>
  * @param <Value>
+ * @author wx
  */
 public class RedBlackBST<Key extends Comparable<Key>, Value> {
-	
-	private Node root;
-	private static final boolean RED = true;
-	private static final boolean BLACK = false;
-	
-	private class Node{
-		Key key;	// ¼ü
-		Value val; 	// Ïà¹ØÁªµÄÖµ
-		Node left, right;	// ×óÓÒ×ÓÊ÷
-		int N;	// Õâ¿ÃÊ÷ÖĞ½áµã×ÜÊı
-		boolean color;	// ÓÉÆä¸¸½áµãÖ¸ÏòËüµÄÁ´½ÓµÄÑÕÉ«
-		
-		Node(Key key, Value val, int N, boolean color){
-			this.key = key;
-			this.val = val;
-			this.N = N;
-			this.color = color;
-		}
-	}
-	
-	private boolean isRed(Node h){
-		if(h == null)
-			return false;
-		return h.color == RED;
-	}
-	
-	private Node rotateLeft(Node h){
-		Node x = h.right;
-		h.right = x.left;
-		x.color = h.color;
-		h.color = RED;
-		x.N = h.N;
-		h.N = 1 + size(h.left) + size(h.right);
-		return x;
-	}
-	
-	private Node rotateRight(Node h){
-		Node x = h.left;
-		h.left = x.right;
-		x.right = h;
-		x.color = h.color;
-		h.color = RED;
-		x.N = h.N;
-		h.N = 1 + size(h.left) + size(h.right);
-		return x;
-	}
-	
-	private void flipColor(Node h){
-		h.color = RED;
-		h.left.color = BLACK;
-		h.right.color = BLACK;
-	}
-	
-	private int size(Node h){
-		if(h == null){
-			return 0;
-		} else{
-			return h.N;
-		}
-	}
-	
-	/**
-	 * ²éÕÒkey£¬ÕÒµ½Ôò¸üĞÂÆäÖµ£¬·ñÔòÎªËüĞÂ¼üÒ»¸ö½áµã
-	 * @param key
-	 * @param val
-	 */
-	public void put(Key key, Value val){
-		root = put(root, key, val);
-		root.color = BLACK;
-	}
-	
-	private Node put(Node h, Key key, Value val){
-		// ±ê×¼µÄ²åÈë²Ù×÷£¬ºÍ¸¸½áµãÓÃºìÁ´½ÓÏàÁ¬
-		if(h == null){	
-			return new Node(key, val, 1, RED);
-		}
-		
-		int cmp = key.compareTo(h.key);
-		if(cmp < 0){
-			h.left = put(h.left, key, val);
-		} else if(cmp > 0){
-			h.right = put(h.right, key, val);
-		} else{
-			h.val = val;
-		}
-		
-		// ½«º¬ÓĞºìÉ«ÓÒÁ´½ÓµÄ3-½áµã(»òÁÙÊ±4-½áµã)×óĞı×ª
-		if(isRed(h.left) && !isRed(h.right)){
-			h = rotateLeft(h);
-		}
-		// ½«ÁÙÊ±µÄ4-½áµãÖĞÁ½ÌõÁ¬ĞøºìÁ´½ÓÖĞÉÏ²ãÁ´½ÓÓÒĞı×ª
-		if(isRed(h.left) && isRed(h.left.left)){
-			h = rotateRight(h);
-		}
-		// ½øĞĞÑÕÉ«×ª»»²¢½«ºìÁ´½ÓÔÚÊ÷ÖĞÏòÉÏ´«µİ
-		if(isRed(h.left) && isRed(h.right)){
-			flipColor(h);
-		}
-		
-		h.N = size(h.left) + size(h.right) + 1;
-		return h;
-	}
+
+    private Node root;
+    private static final boolean RED = true;
+    private static final boolean BLACK = false;
+
+    private class Node {
+        Key key;    // é”®
+        Value val;    // ç›¸å…³è”çš„å€¼
+        Node left, right;    // å·¦å³å­æ ‘
+        int N;    // è¿™æ£µæ ‘ä¸­ç»“ç‚¹æ€»æ•°
+        boolean color;    // ç”±å…¶çˆ¶ç»“ç‚¹æŒ‡å‘å®ƒçš„é“¾æ¥çš„é¢œè‰²
+
+        Node(Key key, Value val, int N, boolean color) {
+            this.key = key;
+            this.val = val;
+            this.N = N;
+            this.color = color;
+        }
+    }
+
+    private boolean isRed(Node h) {
+        if (h == null)
+            return false;
+        return h.color == RED;
+    }
+
+    private Node rotateLeft(Node h) {
+        Node x = h.right;
+        h.right = x.left;
+        x.color = h.color;
+        h.color = RED;
+        x.N = h.N;
+        h.N = 1 + size(h.left) + size(h.right);
+        return x;
+    }
+
+    private Node rotateRight(Node h) {
+        Node x = h.left;
+        h.left = x.right;
+        x.right = h;
+        x.color = h.color;
+        h.color = RED;
+        x.N = h.N;
+        h.N = 1 + size(h.left) + size(h.right);
+        return x;
+    }
+
+    private void flipColor(Node h) {
+        h.color = RED;
+        h.left.color = BLACK;
+        h.right.color = BLACK;
+    }
+
+    private int size(Node h) {
+        if (h == null) {
+            return 0;
+        } else {
+            return h.N;
+        }
+    }
+
+    /**
+     * æŸ¥æ‰¾keyï¼Œæ‰¾åˆ°åˆ™æ›´æ–°å…¶å€¼ï¼Œå¦åˆ™ä¸ºå®ƒæ–°é”®ä¸€ä¸ªç»“ç‚¹
+     *
+     * @param key
+     * @param val
+     */
+    public void put(Key key, Value val) {
+        root = put(root, key, val);
+        root.color = BLACK;
+    }
+
+    private Node put(Node h, Key key, Value val) {
+        // æ ‡å‡†çš„æ’å…¥æ“ä½œï¼Œå’Œçˆ¶ç»“ç‚¹ç”¨çº¢é“¾æ¥ç›¸è¿
+        if (h == null) {
+            return new Node(key, val, 1, RED);
+        }
+
+        int cmp = key.compareTo(h.key);
+        if (cmp < 0) {
+            h.left = put(h.left, key, val);
+        } else if (cmp > 0) {
+            h.right = put(h.right, key, val);
+        } else {
+            h.val = val;
+        }
+
+        // å°†å«æœ‰çº¢è‰²å³é“¾æ¥çš„3-ç»“ç‚¹(æˆ–ä¸´æ—¶4-ç»“ç‚¹)å·¦æ—‹è½¬
+        if (isRed(h.left) && !isRed(h.right)) {
+            h = rotateLeft(h);
+        }
+        // å°†ä¸´æ—¶çš„4-ç»“ç‚¹ä¸­ä¸¤æ¡è¿ç»­çº¢é“¾æ¥ä¸­ä¸Šå±‚é“¾æ¥å³æ—‹è½¬
+        if (isRed(h.left) && isRed(h.left.left)) {
+            h = rotateRight(h);
+        }
+        // è¿›è¡Œé¢œè‰²è½¬æ¢å¹¶å°†çº¢é“¾æ¥åœ¨æ ‘ä¸­å‘ä¸Šä¼ é€’
+        if (isRed(h.left) && isRed(h.right)) {
+            flipColor(h);
+        }
+
+        h.N = size(h.left) + size(h.right) + 1;
+        return h;
+    }
 }
 

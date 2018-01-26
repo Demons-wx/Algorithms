@@ -3,28 +3,28 @@ package sort.shell;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
 /**
- * Ï£¶ûÅÅĞò
- * 		¼ÓÇ¿°æµÄ²åÈëÅÅĞò
- * Ë¼Ïë£º
- * 		Ê¹Êı×éÖĞÈÎÒâ¼ä¸ôÎªhµÄÔªËØ¶¼ÊÇÓĞĞòµÄ£¬ÕâÑùµÄÊı×é±»³ÆÎªhÓĞĞòÊı×é¡£
- * 		»»¾ä»°Ëµ£¬Ò»¸öhÓĞĞòµÄÊı×é¾ÍÊÇh¸ö»¥Ïà¶ÀÁ¢µÄÓĞĞòÊı×é±àÖ¯ÔÚÒ»Æğ×é³ÉµÄÒ»¸öÊı×é¡£
- * 		h³õÊ¼Öµ > N/3£¬h=h/3£¬µ±hµİ¼õµ½1Ê±£¬ÅÅĞòÍê³É¡£
+ * å¸Œå°”æ’åº
+ * 		åŠ å¼ºç‰ˆçš„æ’å…¥æ’åº
+ * æ€æƒ³ï¼š
+ * 		ä½¿æ•°ç»„ä¸­ä»»æ„é—´éš”ä¸ºhçš„å…ƒç´ éƒ½æ˜¯æœ‰åºçš„ï¼Œè¿™æ ·çš„æ•°ç»„è¢«ç§°ä¸ºhæœ‰åºæ•°ç»„ã€‚
+ * 		æ¢å¥è¯è¯´ï¼Œä¸€ä¸ªhæœ‰åºçš„æ•°ç»„å°±æ˜¯hä¸ªäº’ç›¸ç‹¬ç«‹çš„æœ‰åºæ•°ç»„ç¼–ç»‡åœ¨ä¸€èµ·ç»„æˆçš„ä¸€ä¸ªæ•°ç»„ã€‚
+ * 		håˆå§‹å€¼ > N/3ï¼Œh=h/3ï¼Œå½“hé€’å‡åˆ°1æ—¶ï¼Œæ’åºå®Œæˆã€‚
  * @author Demons
  *
  */
 public class Shell {
 
 	public static void sort(Comparable[] a){
-		// ½«a[]°´ÕÕÉıĞòÅÅÁĞ
+		// å°†a[]æŒ‰ç…§å‡åºæ’åˆ—
 		int N = a.length;
 		int h = 1;
 		while(h < N/3){
 			h = 3 * h + 1; // 1,4,13,40,121....
 		}
 		while(h >= 1){
-			// ½«Êı×é±äÎªhÓĞĞò
+			// å°†æ•°ç»„å˜ä¸ºhæœ‰åº
 			for (int i = h; i < N; i++) {
-				// ½«a[i]²åÈëµ½a[i-h],a[i-2*h],a[i-3*h]...Ö®ÖĞ
+				// å°†a[i]æ’å…¥åˆ°a[i-h],a[i-2*h],a[i-3*h]...ä¹‹ä¸­
 				for (int j = i; j >= h && less(a[j], a[j-h]); j-=h) {
 					exch(a, j, j-h);
 				}
@@ -41,14 +41,14 @@ public class Shell {
 		a[j] = t;
 	}
 	private static void show(Comparable[] a){
-		// ÔÚµ¥ĞĞÖĞ´òÓ¡Êı×é
+		// åœ¨å•è¡Œä¸­æ‰“å°æ•°ç»„
 		for(int i=0; i<a.length; i++){
 			StdOut.print(a[i]+" ");
 		}
 		StdOut.println();
 	}
 	public static boolean isSorted(Comparable[] a){
-		// ²âÊÔÊı×éÔªËØÊÇ·ñÓĞĞò
+		// æµ‹è¯•æ•°ç»„å…ƒç´ æ˜¯å¦æœ‰åº
 		for(int i=1; i<a.length; i++){
 			if(less(a[i], a[i-1])){
 				return false;
@@ -57,7 +57,7 @@ public class Shell {
 		return true;
 	}
 	public static void main(String[] args) {
-		// ´Ó±ê×¼ÊäÈëÖĞ¶ÁÈ¡×Ö·û´®£¬½«ËûÃÇÅÅĞò²¢Êä³ö
+		// ä»æ ‡å‡†è¾“å…¥ä¸­è¯»å–å­—ç¬¦ä¸²ï¼Œå°†ä»–ä»¬æ’åºå¹¶è¾“å‡º
 		String[] a = In.readStrings();
 		sort(a);
 		assert isSorted(a);

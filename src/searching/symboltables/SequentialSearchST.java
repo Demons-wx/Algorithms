@@ -65,4 +65,21 @@ public class SequentialSearchST<Key, Value> {
 	public int size(){
 		return size;
 	}
+
+	public void delete(Key key) {
+	    if (key == null)
+	        throw new IllegalArgumentException("argument to delete() is null");
+	    first = delete(first, key);
+    }
+
+    private Node delete(Node x, Key key) {
+	    if (x == null)
+	        return null;
+	    if (key.equals(x.key)) {
+	        size--;
+	        return x.next;
+        }
+        x.next = delete(x.next, key);
+	    return x;
+    }
 }

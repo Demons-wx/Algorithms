@@ -3,110 +3,112 @@ package searching.symboltables;
 import edu.princeton.cs.algs4.Queue;
 
 /**
- * ·ûºÅ±í
- * ¶ş·Ö²éÕÒ(»ùÓÚÓĞĞòÊı×é)
- * Ë¼Â·£º
- * 		Ê¹ÓÃÒ»¶ÔÆ½ĞĞµÄÊı×é£¬Ò»¸ö´æ´¢¼üÒ»¸ö´æ´¢Öµ¡£¿ÉÒÔ±£Ö¤¼üÓĞĞò¡£Ê¹ÓÃÊı×éµÄË÷Òı¸ßĞ§µÄÊµÏÖget()ºÍÆäËû²Ù×÷
- * ÊµÏÖ£º
- * 		ºËĞÄ£ºrank()·½·¨
- * 		Èç¹û±íÖĞ´æÔÚ¸Ã¼ü£¬rank()Ó¦¸Ã·µ»Ø¸Ã¼üµÄÎ»ÖÃ£¬Ò²¾ÍÊÇ±íÖĞĞ¡ÓÚËüµÄ¼üµÄÊıÁ¿£»
- * 		Èç¹û±íÖĞ²»´æÔÚ¸Ã¼ü£¬rank()»¹ÊÇÓ¦¸Ã·µ»Ø±íÖĞĞ¡ÓÚËüµÄ¼üµÄÊıÁ¿¡£
- * @author Demons
+ * ç¬¦å·è¡¨
+ * äºŒåˆ†æŸ¥æ‰¾(åŸºäºæœ‰åºæ•°ç»„)
+ * æ€è·¯ï¼š
+ * ä½¿ç”¨ä¸€å¯¹å¹³è¡Œçš„æ•°ç»„ï¼Œä¸€ä¸ªå­˜å‚¨é”®ä¸€ä¸ªå­˜å‚¨å€¼ã€‚å¯ä»¥ä¿è¯é”®æœ‰åºã€‚ä½¿ç”¨æ•°ç»„çš„ç´¢å¼•é«˜æ•ˆçš„å®ç°get()å’Œå…¶ä»–æ“ä½œ
+ * å®ç°ï¼š
+ * æ ¸å¿ƒï¼šrank()æ–¹æ³•
+ * å¦‚æœè¡¨ä¸­å­˜åœ¨è¯¥é”®ï¼Œrank()åº”è¯¥è¿”å›è¯¥é”®çš„ä½ç½®ï¼Œä¹Ÿå°±æ˜¯è¡¨ä¸­å°äºå®ƒçš„é”®çš„æ•°é‡ï¼›
+ * å¦‚æœè¡¨ä¸­ä¸å­˜åœ¨è¯¥é”®ï¼Œrank()è¿˜æ˜¯åº”è¯¥è¿”å›è¡¨ä¸­å°äºå®ƒçš„é”®çš„æ•°é‡ã€‚
  *
  * @param <Key>
  * @param <Value>
+ * @author Demons
  */
 public class BinarySearchST<Key extends Comparable<Key>, Value> {
 
-	private Key[] keys;
-	private Value[] vals;
-	private int N;
-	
-	/**
-	 * ³õÊ¼»¯Êı×é´óĞ¡
-	 * @param capacity
-	 */
-	public BinarySearchST(int capacity){
-		keys = (Key[]) new Comparable[capacity];
-		vals = (Value[]) new Object[capacity];
-	}
-	
-	public int size(){
-		return N;
-	}
-	
-	public Value get(Key key){
-		if(isEmpty()){
-			return null;
-		}
-		int i = rank(key);
-		if(i < N && keys[i].compareTo(key) ==0){
-			return vals[i];
-		}else{
-			return null;
-		}
-	}
-	
-	/**
-	 * ÕÒ³ö¸Ã¼üÓ¦¸Ã´æ·ÅµÄÎ»ÖÃ
-	 * @param key
-	 * @return
-	 */
-	public int rank(Key key){
-		int lo = 0, hi = N-1;
-		while(lo <= hi){
-			int mid = lo + (hi -lo) / 2;
-			int cmp = key.compareTo(keys[mid]);
-			if(cmp < 0){
-				hi = mid -1;
-			}else if(cmp > 0){
-				lo = mid + 1;
-			}else{
-				return mid;
-			}
-		}
-		return lo;
-	}
+    private Key[] keys;
+    private Value[] vals;
+    private int N;
 
-	public void put(Key key, Value val){
-		// ²éÕÒ¼ü£¬ÕÒµ½Ôò¸üĞÂ·ñÔòĞÂ½¨ÔªËØ
-		int i = rank(key);
-		// ÕÒµ½¼ü
-		if(i < N && keys[i].compareTo(key) == 0){
-			vals[i] = val;
-			return;
-		}
-		// Î´ÕÒµ½¼ü
-		for(int j = N; j > i; j--){
-			// ºóÃæµÄ¼üºÍÖµ¶¼ÏòºóÒÆ¶¯Ò»¸öÎ»ÖÃ
-			keys[j] = keys[j-1];
-			vals[j] = vals[j-1];
-		}
-		keys[i] = key;
-		vals[i] = val;
-		N++;
-	}
-	
-	public boolean isEmpty(){
-		return size() == 0;
-	}
-	
-	public boolean contains(Key key){
-		return get(key) != null;
-	}
-	
-	public Iterable<Key> keys(){
-		return keys(keys[0], keys[N-1]);
-	}
-	
-	public Iterable<Key> keys(Key lo, Key hi){
-		Queue<Key> q = new Queue<>();
-		for(int i = rank(lo); i < rank(hi); i++){
-			q.enqueue(keys[i]);
-		}
-		if(contains(hi)){
-			q.enqueue(keys[rank(hi)]);
-		}
-		return q;
-	}
+    /**
+     * åˆå§‹åŒ–æ•°ç»„å¤§å°
+     *
+     * @param capacity
+     */
+    public BinarySearchST(int capacity) {
+        keys = (Key[]) new Comparable[capacity];
+        vals = (Value[]) new Object[capacity];
+    }
+
+    public int size() {
+        return N;
+    }
+
+    public Value get(Key key) {
+        if (isEmpty()) {
+            return null;
+        }
+        int i = rank(key);
+        if (i < N && keys[i].compareTo(key) == 0) {
+            return vals[i];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * æ‰¾å‡ºè¯¥é”®åº”è¯¥å­˜æ”¾çš„ä½ç½®
+     * äºŒåˆ†æŸ¥æ‰¾
+     * @param key
+     * @return
+     */
+    public int rank(Key key) {
+        int lo = 0, hi = N - 1;
+        while (lo <= hi) {
+            int mid = lo + (hi - lo) / 2;
+            int cmp = key.compareTo(keys[mid]);
+            if (cmp < 0) {
+                hi = mid - 1;
+            } else if (cmp > 0) {
+                lo = mid + 1;
+            } else {
+                return mid;
+            }
+        }
+        return lo;
+    }
+
+    public void put(Key key, Value val) {
+        // æŸ¥æ‰¾é”®ï¼Œæ‰¾åˆ°åˆ™æ›´æ–°å¦åˆ™æ–°å»ºå…ƒç´ 
+        int i = rank(key);
+        // æ‰¾åˆ°é”®
+        if (i < N && keys[i].compareTo(key) == 0) {
+            vals[i] = val;
+            return;
+        }
+        // æœªæ‰¾åˆ°é”®
+        for (int j = N; j > i; j--) {
+            // åé¢çš„é”®å’Œå€¼éƒ½å‘åç§»åŠ¨ä¸€ä¸ªä½ç½®
+            keys[j] = keys[j - 1];
+            vals[j] = vals[j - 1];
+        }
+        keys[i] = key;
+        vals[i] = val;
+        N++;
+    }
+
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    public boolean contains(Key key) {
+        return get(key) != null;
+    }
+
+    public Iterable<Key> keys() {
+        return keys(keys[0], keys[N - 1]);
+    }
+
+    public Iterable<Key> keys(Key lo, Key hi) {
+        Queue<Key> q = new Queue<>();
+        for (int i = rank(lo); i < rank(hi); i++) {
+            q.enqueue(keys[i]);
+        }
+        if (contains(hi)) {
+            q.enqueue(keys[rank(hi)]);
+        }
+        return q;
+    }
 }
