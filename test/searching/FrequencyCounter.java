@@ -1,4 +1,4 @@
-package searching.test;
+package searching;
 
 import edu.princeton.cs.algs4.SequentialSearchST;
 import edu.princeton.cs.algs4.StdIn;
