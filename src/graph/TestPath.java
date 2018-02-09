@@ -14,7 +14,7 @@ public class TestPath {
         int s = Integer.parseInt(args[1]);
         System.out.println(G);
         DepthFirstPaths search = new DepthFirstPaths(G, s);
-
+     //   BreadthFirstPaths search = new BreadthFirstPaths(G, s);
 
         for (int v = 0; v < G.V(); v++) {
             StdOut.print(s + " to " + v + ": ");
