@@ -53,6 +53,8 @@ public class FalseSharingDemo {
         for (Thread t : competitorThreads) {
             t.start();
         }
+        // t.join() 相当于在当前主线程上调用线程t，此时主线程将被挂起，直到目标线程t结束才恢复
+        // for的意义在于：当所有线程均结束后再返回主线程
         for (Thread t : competitorThreads) {
             t.join();
         }
@@ -60,24 +62,23 @@ public class FalseSharingDemo {
         return System.nanoTime() - start;
     }
 
-    public static boolean runOneCompare(int theadNum) throws Exception {
-        PlainHotVariable[] plainHotVariables = new PlainHotVariable[theadNum];
+    public static boolean runOneCompare(int threadNum) throws Exception {
+        PlainHotVariable[] plainHotVariables = new PlainHotVariable[threadNum];
 
-        for (int i = 0; i < theadNum; i++) {
+        for (int i = 0; i < threadNum; i++) {
             plainHotVariables[i] = new PlainHotVariable();
         }
 
         // 进行无填充、无缓存行对齐的测试
         long t1 = runOneTest(plainHotVariables);
 
-        AlignHotVariable[] alignHotVariable = new AlignHotVariable[theadNum];
+        AlignHotVariable[] alignHotVariable = new AlignHotVariable[threadNum];
 
         for (int i = 0; i < NUM_THREADS; i++) {
             alignHotVariable[i] = new AlignHotVariable();
         }
 
         // 进行有填充、有缓存行对齐的测试
-
         long t2 = runOneTest(alignHotVariable);
 
         System.out.println("Plain: " + t1);
